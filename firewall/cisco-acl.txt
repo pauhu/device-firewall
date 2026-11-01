@@ -1,0 +1,82 @@
+! Cisco IOS / ASA - egress allow-list for a segment of Pauhu-connected devices.
+! Default-deny egress, no inbound, allow-list to the Pauhu endpoints over TLS, plus DNS/NTP.
+! TEMPLATE: adapt to your actual L3 topology and verify the applied direction before relying on it.
+!
+! ACLs match IP addresses, not hostnames. Replace the object-group addresses with the
+! resolved addresses of PAUHU_API_FQDN / PAUHU_AUTH_FQDN (from a trusted resolver) and
+! refresh them when they change, or terminate egress at a proxy that enforces the hostname.
+!
+! DIRECTION: traffic the DEVICE originates ENTERS the router on the device-segment interface.
+! To filter that egress, apply the ACL INBOUND on the device-segment interface/SVI (packets
+! arriving from the segment). Applying it outbound on the Internet uplink also works but then
+! also sees return traffic; this template applies it inbound on the segment, which is the
+! common, least-surprising placement. Add a separate policy for traffic toward the segment
+! if required. Provide BOTH an IPv4 and an IPv6 ACL so IPv6 is not left open.
+
+! ----- IOS style: IPv4 extended ACL applied INBOUND on the device-segment interface -----
+
+object-group network PAUHU_ENDPOINTS
+ ! host <resolved-ip-of-PAUHU_API_FQDN>
+ ! host <resolved-ip-of-PAUHU_AUTH_FQDN>
+object-group network DNS_SERVERS
+ ! host <your-resolver>
+object-group network NTP_SERVERS
+ ! host <your-ntp-source>
+
+ip access-list extended PAUHU_EGRESS_V4
+ permit udp any object-group DNS_SERVERS eq 53
+ permit tcp any object-group DNS_SERVERS eq 53
+ permit udp any object-group NTP_SERVERS eq 123
+ permit tcp any object-group PAUHU_ENDPOINTS eq 443
+ deny   ip any any log
+
+interface <device-segment-interface-or-SVI>
+ ip access-group PAUHU_EGRESS_V4 in
+ ! no inbound services are permitted toward the segment; keep the Internet-facing
+ ! interface's policy at deny-all with no port forwards.
+
+! ----- IOS style: IPv6 ACL (parity) applied INBOUND on the same segment interface -----
+! Fill the destinations with the resolved IPv6 addresses (or deny all v6 if unused).
+! An IPv6 ACL MUST permit the required link-local ICMPv6 control traffic (RFC 4890 4.4/4.4.1) or
+! the final deny breaks Neighbor/Router Discovery and IPv6 never comes up. Applied inbound on the
+! segment this ACL sees traffic the CLIENT ORIGINATES, so it permits the client's outbound ND set
+! (RS, NS, NA, MLD reports) plus the ICMPv6 errors. If you also filter traffic TOWARD the segment,
+! that policy must permit Router Advertisement (router-advertisement), nd-na/nd-ns and the ICMPv6
+! errors so RA/NA reach the device. IOS ACLs cannot match hop limit, so the RFC 4861 on-link
+! hop-limit-255 guarantee is NOT enforced here; rely on a trusted L2 segment or a platform that can.
+ipv6 access-list PAUHU_EGRESS_V6
+ permit icmp any any router-solicitation
+ permit icmp any any nd-ns
+ permit icmp any any nd-na
+ permit icmp any any echo-request
+ permit icmp any any echo-reply
+ permit icmp any any packet-too-big
+ permit icmp any any unreachable
+ permit icmp any any time-exceeded
+ permit icmp any any parameter-problem
+ permit icmp any any mld-report
+ permit icmp any any mld-reduction
+ permit udp any host <resolver-v6> eq 53
+ permit tcp any host <resolver-v6> eq 53
+ permit udp any host <ntp-v6> eq 123
+ permit tcp any host <pauhu-endpoint-v6> eq 443
+ ! DHCPv6 client (ONLY if this segment assigns IPv6 by DHCPv6; omit on SLAAC/static segments):
+ ! permit udp any eq 546 any eq 547
+ deny   ipv6 any any log
+
+interface <device-segment-interface-or-SVI>
+ ipv6 traffic-filter PAUHU_EGRESS_V6 in
+
+! ----- ASA style equivalent (ASA applies the ACL 'in' on the segment interface) -----
+! object-group network PAUHU_ENDPOINTS
+! access-list PAUHU_EGRESS extended permit udp any object-group DNS_SERVERS eq domain
+! access-list PAUHU_EGRESS extended permit tcp any object-group DNS_SERVERS eq domain
+! access-list PAUHU_EGRESS extended permit udp any object-group NTP_SERVERS eq ntp
+! access-list PAUHU_EGRESS extended permit tcp any object-group PAUHU_ENDPOINTS eq 443
+! access-list PAUHU_EGRESS extended deny ip any any log
+! access-group PAUHU_EGRESS in interface <device-segment>
+! (define an equivalent IPv6 access-list and apply it on the same interface for parity, and
+!  permit the same required link-local ICMPv6 control set shown in the IOS IPv6 ACL above.)
+!
+! Confirm the endpoint hostnames against the Endpoints table in the hardening guide (README)
+! before deploying.

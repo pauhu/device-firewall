@@ -2,7 +2,7 @@
 
 > Firewall and network setup for devices that call the Pauhu AI API. Reading is free; backend access requires a free Pauhu developer key.
 
-- [Developer key](https://pauhu.dev/developer-terms/): free, 90 days, 50 requests a day, at most 5 a minute
+- [Developer key](https://api.pauhu.ai/v1/dev/github/start): sign in with GitHub; free, 90 days, 50 requests a day, at most 5 a minute
 - [AGENTS.md](AGENTS.md): instructions for AI agents
 - [server.json](server.json): MCP remote server
 - [Skill](skills/pauhu-developer-key/SKILL.md)

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "pauhu": {
+      "type": "http",
+      "url": "https://mcp.pauhu.ai/mcp",
+      "headers": { "Authorization": "Bearer ${PAUHU_DEV_KEY}" }
+    }
+  }
+}

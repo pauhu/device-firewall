@@ -1,4 +1,4 @@
-# Pauhu client
+# Pauhu Device Firewall
 
 > Firewall and network setup for devices that call the Pauhu AI API. Needs a free Pauhu developer key against the Pauhu demo backend; no key, no result.
 
@@ -6,3 +6,5 @@
 - [AGENTS.md](AGENTS.md): instructions for AI agents
 - [server.json](server.json): MCP remote server
 - [Skill](skills/pauhu-developer-key/SKILL.md)
+
+Copyright © 2026 Pauhu Ltd. Written and maintained by Pauhu Ltd.

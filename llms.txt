@@ -1,6 +1,6 @@
 # Pauhu Device Firewall
 
-> Firewall and network setup for devices that call the Pauhu AI API. Needs a free Pauhu developer key against the Pauhu demo backend; no key, no result.
+> Firewall and network setup for devices that call the Pauhu AI API. Reading is free; backend access requires a free Pauhu developer key.
 
 - [Developer key](https://pauhu.dev/developer-terms/): free, 90 days, 50 requests a day, at most 5 a minute
 - [AGENTS.md](AGENTS.md): instructions for AI agents

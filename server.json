@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.pauhu/pauhu",
+  "description": "Pauhu demo backend over MCP. Needs a free Pauhu developer key.",
+  "title": "Pauhu",
+  "websiteUrl": "https://pauhu.dev/developer-terms/",
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.pauhu.ai/mcp",
+      "headers": [
+        { "name": "Authorization", "description": "Bearer <Pauhu developer key>; get one at https://pauhu.dev/developer-terms/", "isRequired": true, "isSecret": true }
+      ]
+    }
+  ]
+}

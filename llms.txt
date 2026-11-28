@@ -1,0 +1,8 @@
+# Pauhu client
+
+> Firewall and network setup for devices that call the Pauhu AI API. Needs a free Pauhu developer key against the Pauhu demo backend; no key, no result.
+
+- [Developer key](https://pauhu.dev/developer-terms/): free, 90 days, 50 requests a day, at most 5 a minute
+- [AGENTS.md](AGENTS.md): instructions for AI agents
+- [server.json](server.json): MCP remote server
+- [Skill](skills/pauhu-developer-key/SKILL.md)

@@ -1,6 +1,6 @@
 // Pauhu quickstart (Node 18+): lists the tools the Pauhu demo backend offers you. Needs PAUHU_DEV_KEY.
 const key = process.env.PAUHU_DEV_KEY;
-if (!key) { console.log('Set PAUHU_DEV_KEY first. Get a free Pauhu developer key at https://pauhu.dev/developer-terms/'); process.exit(2); }
+if (!key) { console.log('Set PAUHU_DEV_KEY first. Get a free Pauhu developer key by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start (terms: https://pauhu.dev/developer-terms/)'); process.exit(2); }
 const U = 'https://mcp.pauhu.ai/mcp';
 const h = { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' };
 const post = (body, sid) => fetch(U, { method: 'POST', headers: sid ? { ...h, 'Mcp-Session-Id': sid } : h, body: JSON.stringify(body) });

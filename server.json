@@ -10,7 +10,7 @@
       "type": "streamable-http",
       "url": "https://mcp.pauhu.ai/mcp",
       "headers": [
-        { "name": "Authorization", "description": "Bearer <Pauhu developer key>; get one at https://pauhu.dev/developer-terms/", "isRequired": true, "isSecret": true }
+        { "name": "Authorization", "description": "Bearer <Pauhu developer key>; get one by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start", "isRequired": true, "isSecret": true }
       ]
     }
   ]

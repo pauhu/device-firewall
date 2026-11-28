@@ -2,7 +2,7 @@
 import json, os, sys, urllib.request
 key = os.environ.get("PAUHU_DEV_KEY")
 if not key:
-    print("Set PAUHU_DEV_KEY first. Get a free Pauhu developer key at https://pauhu.dev/developer-terms/"); sys.exit(2)
+    print("Set PAUHU_DEV_KEY first. Get a free Pauhu developer key by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start (terms: https://pauhu.dev/developer-terms/)"); sys.exit(2)
 U = "https://mcp.pauhu.ai/mcp"
 H = {"Authorization": f"Bearer {key}", "Content-Type": "application/json", "Accept": "application/json, text/event-stream"}
 def post(body, sid=None):

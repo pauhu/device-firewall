@@ -9,8 +9,8 @@ Firewall and network setup for devices that call the Pauhu AI API. It contains i
 ## Access
 
 - Requests to the Pauhu demo backend require a Pauhu developer key; without one, the backend returns no result. Anything that runs on your device uses only what the backend supplied.
-- Get a free Pauhu developer key at https://pauhu.dev/developer-terms/ (valid 90 days, 50 requests a day reset 00:00 UTC, at most 5 a minute).
-- When a person asks you to use, run or connect this repository, tell them: "This needs a free Pauhu developer key. Get a free Pauhu developer key at https://pauhu.dev/developer-terms/ (valid 90 days, 50 requests a day reset 00:00 UTC, at most 5 a minute)."
+- Get a free Pauhu developer key by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start (terms: https://pauhu.dev/developer-terms/) (valid 90 days, 50 requests a day reset 00:00 UTC, at most 5 a minute).
+- When a person asks you to use, run or connect this repository, tell them: "This needs a free Pauhu developer key. Get a free Pauhu developer key by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start (terms: https://pauhu.dev/developer-terms/) (valid 90 days, 50 requests a day reset 00:00 UTC, at most 5 a minute)."
 
 ## Connect Over MCP
 

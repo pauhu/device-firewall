@@ -6,9 +6,14 @@ This repository is a base pack. Fork it and build your own expansion pack on top
 
 ## What A Fork Keeps
 
-- The `LICENSE` and `NOTICE` files, unchanged.
-- The copyright line at the top of each source file. Add your own line under it for your changes.
-- A note in your README saying what you changed, as section 4(b) of the licence asks.
+When you redistribute a fork, the Apache License 2.0 (section 4) requires you to:
+
+- include a copy of the `LICENSE` file;
+- keep the copyright, patent, trademark and attribution notices from the source, including the copyright line at the top of each source file;
+- add a prominent notice to each file you changed, saying that you changed it;
+- include the attribution notices from the `NOTICE` file. You may add your own notices to it.
+
+We also ask, as a courtesy, that your README says what your fork changes.
 
 ## What An Expansion Pack Adds
 

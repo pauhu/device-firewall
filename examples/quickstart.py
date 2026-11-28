@@ -1,4 +1,6 @@
 """Pauhu quickstart (Python 3.9+, standard library only): lists the tools the Pauhu demo backend offers you. Needs PAUHU_DEV_KEY."""
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Pauhu Ltd
 import json, os, sys, urllib.error, urllib.request
 key = os.environ.get("PAUHU_DEV_KEY")
 if not key:

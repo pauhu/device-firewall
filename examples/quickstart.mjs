@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright 2026 Pauhu Ltd
 // Pauhu quickstart (Node 18+): lists the tools the Pauhu demo backend offers you. Needs PAUHU_DEV_KEY.
 const key = process.env.PAUHU_DEV_KEY;
 if (!key) { console.log('Set PAUHU_DEV_KEY first. Get a free Pauhu developer key by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start (terms: https://pauhu.dev/developer-terms/)'); process.exit(2); }

@@ -23,3 +23,7 @@ Without a key the examples stop with a message and the backend returns no answer
 ## The Pauhu Menu
 
 This repository is one item on [the Pauhu Menu](https://github.com/pauhu), which lists every Pauhu repository and the developer key terms in one place.
+
+## Build Your Own Expansion Pack
+
+Fork this base pack and add your own tools; see [EXTENDING.md](EXTENDING.md). Keep the LICENSE and NOTICE files.

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Pauhu Ltd
 # Pauhu quickstart: lists the tools the Pauhu demo backend offers you. Needs PAUHU_DEV_KEY.
 set -euo pipefail
 if [ -z "${PAUHU_DEV_KEY:-}" ]; then echo "Set PAUHU_DEV_KEY first. Get a free Pauhu developer key by signing in with GitHub at https://api.pauhu.ai/v1/dev/github/start (terms: https://pauhu.dev/developer-terms/)"; exit 2; fi

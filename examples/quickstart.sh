@@ -13,5 +13,15 @@ fi
 curl "${H[@]}" "${SH[@]}" "$U" -d '{"jsonrpc":"2.0","method":"notifications/initialized"}' >/dev/null
 OUT=$(curl "${H[@]}" "${SH[@]}" "$U" -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}')
 printf '%s\n' "$OUT"
-LAST=$(printf '%s\n' "$OUT" | sed -n 's/^data: *//p' | tail -n 1); [ -n "$LAST" ] || LAST=$OUT
-case "$LAST" in '{"jsonrpc":"2.0","error"'*|'{"error"'*) exit 1;; esac
+# Check the reply structurally when Python 3 is available (it reads JSON and server-sent events properly).
+if command -v python3 >/dev/null 2>&1; then
+  printf '%s' "$OUT" | python3 -I -c '
+import json, sys
+t = sys.stdin.read().replace("\r", "")
+evs = ["\n".join(l[5:].lstrip(" ") for l in e.split("\n") if l.startswith("data:")) for e in t.split("\n\n")] if "data:" in t else [t]
+for m in filter(None, (e.strip() for e in evs)):
+    msg = json.loads(m)
+    for x in msg if isinstance(msg, list) else [msg]:
+        if isinstance(x, dict) and x.get("error"): sys.exit(1)
+' || { echo "The backend returned an error." >&2; exit 1; }
+fi

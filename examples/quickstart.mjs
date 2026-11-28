@@ -7,9 +7,13 @@ const post = async (body, sid) => {
   const r = await fetch(U, { method: 'POST', headers: sid ? { ...h, 'Mcp-Session-Id': sid } : h, body: JSON.stringify(body) });
   const text = await r.text();
   if (!r.ok) { console.error(`HTTP ${r.status}: ${text.slice(0, 500)}`); process.exit(1); }
-  const data = text.split('\n').filter(l => l.startsWith('data:')).map(l => l.slice(5)).pop() ?? text;
-  let msg = null; try { msg = data.trim() ? JSON.parse(data) : null; } catch { console.error('Unreadable reply: ' + text.slice(0, 300)); process.exit(1); }
-  if (msg && msg.error) { console.error(JSON.stringify(msg.error).slice(0, 500)); process.exit(1); }
+  // Server-sent events: each event's data lines joined by newlines form one JSON message. A plain JSON body is one message.
+  const sse = /^(event|data|id|retry):/m.test(text);
+  const msgs = sse ? text.replace(/\r/g, '').split(/\n\n+/).map(ev => ev.split('\n').filter(l => l.startsWith('data:')).map(l => l.slice(5).replace(/^ /, '')).join('\n')).filter(Boolean) : (text.trim() ? [text] : []);
+  for (const m of msgs) {
+    let msg; try { msg = JSON.parse(m); } catch { console.error('Unreadable reply: ' + m.slice(0, 300)); process.exit(1); }
+    for (const x of [msg].flat()) if (x && x.error) { console.error(JSON.stringify(x.error).slice(0, 500)); process.exit(1); }
+  }
   return { r, text };
 };
 const init = await post({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'pauhu-quickstart', version: '0.1.0' } } });
